@@ -1,0 +1,13 @@
+{
+    "translation": {
+      "loginTitle": "Welcome back!",
+      "usernameTitle": "Username",
+      "passwordTitle": "Password",
+      "loginButton": "Login",
+      "usernameEmpty": "Username is required",
+      "passwordEmpty": "Password is required",
+      "emailTitle": "Email",
+      "recaptchaTitle": "Recaptcha is required",
+      "invalidEmail": "Invalid email"
+    }
+  }

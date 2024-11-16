@@ -1,0 +1,49 @@
+nelmio_api_doc:
+  documentation:
+    info:
+      title: Car Garage ITP Manager
+      description: API for managing ITP Data
+      version: 1.0.0
+    components:
+      securitySchemes:
+        Bearer:
+          type: http
+          scheme: bearer
+          bearerFormat: JWT
+      security:
+        - Bearer: [ ]
+    paths:
+      /api/login:
+        post:
+          tags: [ "Authentication" ]
+          summary: "Get JWT token"
+          description: "Logs user in and returns JWT token"
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    username:
+                      type: string
+                      example: "username"
+                    password:
+                      type: string
+                      example: "password"
+          responses:
+            '200':
+              description: "Token"
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            '401':
+              description: "Invalid credentials"
+  areas: # to filter documented areas
+    path_patterns:
+      - ^/api(?!/doc$) # Accepts routes under /api except /api/doc

@@ -1,0 +1,50 @@
+# Use an official PHP runtime as a parent image
+FROM php:8.2-fpm
+
+# Install PHP extensions
+RUN apt update \
+    && apt install -y zlib1g-dev g++ git libicu-dev zip libzip-dev zip \
+    && docker-php-ext-install intl opcache pdo pdo_mysql \
+    && pecl install apcu \
+    && docker-php-ext-enable apcu \
+    && docker-php-ext-configure zip \
+    && docker-php-ext-install zip
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Create a non-root user with UID and GID matching your WSL user
+ARG USER_ID
+ARG GROUP_ID
+
+RUN groupadd -g $GROUP_ID symfony \
+    && useradd -u $USER_ID -g $GROUP_ID -m symfony
+
+# Copy application code
+COPY ../api /var/www/api
+
+# Set working directory
+WORKDIR /var/www/api
+
+# Set permissions for Symfony's var directory
+RUN chown -R symfony:symfony /var/www/api/var
+
+# Install Symfony CLI
+RUN curl -sS https://get.symfony.com/cli/installer | bash
+RUN mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
+
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
+# Install Symfony dependencies
+RUN composer install
+
+# Generate autoload files
+RUN composer dump-autoload --optimize
+
+# Switch to the symfony user
+USER symfony
+
+# Expose port 9000 and start php-fpm server
+EXPOSE 9000
+
+CMD ["php-fpm"]

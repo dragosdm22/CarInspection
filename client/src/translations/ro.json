@@ -1,0 +1,13 @@
+{
+    "translation": {
+      "loginTitle": "Bine ai revenit!",
+      "usernameTitle": "Nume de utilizator",
+      "passwordTitle": "Parolă",
+      "loginButton": "Autentificare",
+      "usernameEmpty": "Numele de utilizator nu poate fi gol",
+      "passwordEmpty": "Câmpul parolă nu poate fi gol",
+      "emailTitle": "Email",
+      "recaptchaTitle": "Recaptcha este necesară",
+      "invalidEmail": "Email invalid"
+    }
+  }
